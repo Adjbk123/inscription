@@ -1,38 +1,67 @@
+<link href="/frontend/img/favicon.ico" rel="icon">
+
+<!-- Google Web Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&family=Lora:wght@600;700&display=swap" rel="stylesheet"> 
+
+<!-- Icon Font Stylesheet -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&family=Lora:wght@600;700&display=swap" rel="stylesheet"> 
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+<!-- Libraries Stylesheet -->
+<link href="/frontend/lib/animate/animate.min.css" rel="stylesheet">
+<link href="/frontend/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+<!-- Customized Bootstrap Stylesheet -->
+<link href="/frontend/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Template Stylesheet -->
+<link href="/frontend/css/style.css" rel="stylesheet">
+
+
 <!-- FOOTER START -->
-<footer class="container-fluid bg-dark text-light pt-5 mt-5">
-    <div class="container py-5">
+<footer class="container-fluid bg-dark text-light pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
+    <div class="container">
         <div class="row g-5">
 
             <!-- LOGO + DESCRIPTION -->
             <div class="col-lg-4 col-md-6">
-                <h2 class="text-white mb-4 fw-bold">
+                <h2 class="text-white mb-3">
                     <span class="text-primary">{{ $parametres?->website_name ?? 'MAFLYT SARL' }}</span>
                 </h2>
-                <p class="mb-4 text-white-50 lh-lg">
+                <p class="mb-4" style="opacity: 0.8;">
                     {{ $parametres?->meta_description ?? 'Entreprise spécialisée en formation informatique et vente d’ordinateurs de qualité.' }}
                 </p>
 
-                <div class="d-flex gap-3">
+                <div class="d-flex gap-2">
                     @if($parametres?->facebook)
-                        <a class="btn btn-outline-light social-circle" href="{{ $parametres->facebook }}" target="_blank">
+                        <a class="btn btn-outline-light btn-social" href="{{ $parametres->facebook }}" target="_blank">
                             <i class="fab fa-facebook-f"></i>
                         </a>
                     @endif
 
                     @if($parametres?->twitter)
-                        <a class="btn btn-outline-light social-circle" href="{{ $parametres->twitter }}" target="_blank">
+                        <a class="btn btn-outline-light btn-social" href="{{ $parametres->twitter }}" target="_blank">
                             <i class="fab fa-twitter"></i>
                         </a>
                     @endif
 
                     @if($parametres?->whatsapp)
-                        <a class="btn btn-outline-light social-circle" href="{{ $parametres->whatsapp }}" target="_blank">
+                        <a class="btn btn-outline-light btn-social" href="{{ $parametres->whatsapp }}" target="_blank">
                             <i class="fab fa-whatsapp"></i>
                         </a>
                     @endif
 
                     @if($parametres?->youtube)
-                        <a class="btn btn-outline-light social-circle" href="{{ $parametres->youtube }}" target="_blank">
+                        <a class="btn btn-outline-light btn-social" href="{{ $parametres->youtube }}" target="_blank">
                             <i class="fab fa-youtube"></i>
                         </a>
                     @endif
@@ -41,42 +70,38 @@
 
             <!-- CONTACT -->
             <div class="col-lg-4 col-md-6">
-                <h4 class="text-white mb-4 fw-bold">Contact</h4>
-                <div class="d-flex mb-3">
-                    <i class="fa fa-map-marker-alt me-3 text-primary"></i>
-                    <span class="text-white-50">{{ $parametres?->address ?? 'Adresse non définie' }}</span>
-                </div>
-                <div class="d-flex mb-3">
+                <h4 class="text-white mb-4 border-bottom pb-2">Contact</h4>
+
+                <p><i class="fa fa-map-marker-alt me-3 text-primary"></i>{{ $parametres?->address ?? 'Adresse non définie' }}</p>
+
+                <p>
                     <i class="fa fa-phone-alt me-3 text-primary"></i>
-                    <a href="tel:{{ $parametres?->phone1 ?? '' }}" class="text-white-50 text-decoration-none hover-primary">
+                    <a href="tel:{{ $parametres?->phone1 ?? '' }}" class="text-light">
                         {{ $parametres?->phone1 ?? 'Téléphone non défini' }}
                     </a>
-                </div>
-                <div class="d-flex mb-3">
+                </p>
+
+                <p>
                     <i class="fa fa-envelope me-3 text-primary"></i>
-                    <a href="mailto:{{ $parametres?->email1 ?? '' }}" class="text-white-50 text-decoration-none hover-primary">
+                    <a href="mailto:{{ $parametres?->email1 ?? '' }}" class="text-light">
                         {{ $parametres?->email1 ?? 'Email non défini' }}
                     </a>
-                </div>
+                </p>
             </div>
 
             <!-- LIENS RAPIDES -->
-            <div class="col-lg-4 col-md-6">
-                <h4 class="text-white mb-4 fw-bold">Navigation</h4>
+            <div class="col-lg-4 col-md-12">
+                <h4 class="text-white mb-4 border-bottom pb-2">Navigation</h4>
                 <div class="row">
                     <div class="col-6">
-                        <ul class="list-unstyled mb-0">
-                            <li class="mb-2"><a class="text-white-50 text-decoration-none hover-primary" href="{{ url('/') }}"><i class="fas fa-chevron-right small me-2"></i> Accueil</a></li>
-                            <li class="mb-2"><a class="text-white-50 text-decoration-none hover-primary" href="#"><i class="fas fa-chevron-right small me-2"></i> Services</a></li>
-                            <li class="mb-2"><a class="text-white-50 text-decoration-none hover-primary" href="#"><i class="fas fa-chevron-right small me-2"></i> Contact</a></li>
-                        </ul>
+                        <a class="btn btn-link text-light ps-0" href="{{ url('/') }}">Accueil</a>
+                        <a class="btn btn-link text-light ps-0" href="#">Services</a>
+                        <a class="btn btn-link text-light ps-0" href="#">Contact</a>
                     </div>
                     <div class="col-6">
-                        <ul class="list-unstyled mb-0">
-                            <li class="mb-2"><a class="text-white-50 text-decoration-none hover-primary" href="#"><i class="fas fa-chevron-right small me-2"></i> Formations</a></li>
-                            <li class="mb-2"><a class="text-white-50 text-decoration-none hover-primary" href="#"><i class="fas fa-chevron-right small me-2"></i> Vente PC</a></li>
-                            <li class="mb-2"><a class="text-white-50 text-decoration-none hover-primary" href="#"><i class="fas fa-chevron-right small me-2"></i> Support</a></li>
-                        </ul>
+                        <a class="btn btn-link text-light ps-0" href="#">Formations</a>
+                        <a class="btn btn-link text-light ps-0" href="#">Vente PC</a>
+                        <a class="btn btn-link text-light ps-0" href="#">Support</a>
                     </div>
                 </div>
             </div>
@@ -85,42 +110,27 @@
     </div>
 
     <!-- COPYRIGHT BAR -->
-    <div class="container-fluid bg-dark border-top border-secondary py-4" style="font-size: 14px;">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                    &copy; {{ date('Y') }} <span class="text-primary fw-bold">{{ $parametres?->website_name ?? 'MAFLYT' }}</span>. Tous droits réservés.
-                </div>
-                <div class="col-md-6 text-center text-md-end">
-                    Conçu par l'équipe Technique.
-                </div>
-            </div>
-        </div>
+    <div class="container-fluid bg-black text-center text-light py-3 mt-5" style="font-size: 14px;">
+        &copy; {{ date('Y') }} 
+        <strong>{{ $parametres?->website_name ?? 'MAFLYT' }}</strong> — Tous droits réservés.
     </div>
 </footer>
+<!-- FOOTER END -->
 
-<style>
-    .hover-primary:hover {
-        color: var(--primary) !important;
-        padding-left: 5px;
-        transition: 0.3s;
-    }
-    .social-circle {
-        width: 40px !important;
-        height: 40px !important;
-        padding: 0 !important;
-        display: inline-flex !important;
-        align-items: center;
-        justify-content: center;
-        flex-shrink: 0;
-        border-radius: 50% !important;
-    }
-    footer .btn-sm-square:hover, .social-circle:hover {
-        background-color: var(--primary);
-        border-color: var(--primary);
-        color: white;
-    }
-</style>
 
-<!-- Back to Top -->
-<a href="#" class="btn btn-lg btn-primary btn-lg-square rounded-circle back-to-top shadow-lg"><i class="bi bi-arrow-up"></i></a>
+    <!-- Copyright End -->
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square rounded-circle back-to-top"><i class="bi bi-arrow-up"></i></a>
+    <!-- Footer End -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square rounded-circle back-to-top"><i class="bi bi-arrow-up"></i></a>
+ <!-- JavaScript Libraries -->
+    <script src="/frontend/lib/wow/wow.min.js"></script>
+    <script src="/frontend/lib/easing/easing.min.js"></script>
+    <script src="/frontend/lib/waypoints/waypoints.min.js"></script>
+    <script src="/frontend/lib/owlcarousel/owl.carousel.min.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="/frontend/js/main.js"></script>

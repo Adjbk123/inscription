@@ -1,22 +1,14 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Administration') | {{ config('app.name') }}</title>
 
-    <!-- Favicon -->
-    <link rel="shortcut icon"
-        href="{{ $parametres?->photo ? asset('uploads/' . $parametres->photo) : asset('uploads/default.png') }}"
-        type="image/x-icon">
-
 
     <!-- Google Font: Source Sans Pro -->
-    <link
-        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Source+Sans+Pro:300,400,400i,700&display=fallback"
-        rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="{{ asset('admin/plugins/fontawesome-free/css/all.min.css') }}">
     <!-- overlayScrollbars -->
@@ -33,104 +25,83 @@
     <link rel="stylesheet" href="{{ asset('admin/plugins/dropzone/min/dropzone.min.css') }}">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ asset('admin/css/custom.css') }}">
-    <style>
-        body,
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6,
-        .nav-link,
-        .brand-text,
-        .info,
-        .btn,
-        .content,
-        .main-footer,
-        .sidebar,
-        .dropdown-item {
-            font-family: 'Montserrat', sans-serif !important;
-        }
-    </style>
     @livewireStyles
 </head>
-
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
-    <div class="wrapper">
+<div class="wrapper">
 
-        <!-- Navbar -->
-        <x-navbar />
-        <!-- Sidebar -->
-        <x-sidebar />
+    <!-- Navbar -->
+    <x-navbar/>
+    <!-- Sidebar -->
+    <x-sidebar/>
 
-        <!-- Content Wrapper -->
-        <div class="content-wrapper">
+    <!-- Content Wrapper -->
+    <div class="content-wrapper">
 
-            <!-- Content Header (Page header) -->
+        <!-- Content Header (Page header) -->
+        
+        <!-- /.content-header -->
 
-            <!-- /.content-header -->
-
-            <!-- Main content -->
-            <section class="content">
-                <div class="container-fluid">
-                    @yield('content')
-                </div>
-            </section>
-            <!-- /.content -->
-        </div>
-        <!-- /.content-wrapper -->
-
-        <!-- Footer -->
-        <x-footer />
-
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                @yield('content')
+            </div>
+        </section>
+        <!-- /.content -->
     </div>
-    <!-- ./wrapper -->
+    <!-- /.content-wrapper -->
 
-    <!-- Scripts -->
-    <script src="{{ asset('admin/plugins/jquery/jquery.min.js') }}"></script>
-    <script src="{{ asset('admin/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('admin/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
-    <script src="{{ asset('admin/dist/js/adminlte.min.js') }}"></script>
+    <!-- Footer -->
+    <x-footer/>
 
-    <script src="{{ asset('admin/plugins/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('admin/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('admin/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
-    <script src="{{ asset('admin/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('admin/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
-    <script src="{{ asset('admin/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
+</div>
+<!-- ./wrapper -->
 
-    <!-- Summernote -->
-    <script src="{{ asset('admin/plugins/summernote/summernote.min.js') }}"></script>
-    <!-- Dropzone -->
-    <script src="{{ asset('admin/plugins/dropzone/min/dropzone.min.js') }}"></script>
+<!-- Scripts -->
+<script src="{{ asset('admin/plugins/jquery/jquery.min.js') }}"></script>
+<script src="{{ asset('admin/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('admin/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
+<script src="{{ asset('admin/dist/js/adminlte.min.js') }}"></script>
 
-    <script>
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
+<script src="{{ asset('admin/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('admin/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('admin/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+<script src="{{ asset('admin/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('admin/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
+<script src="{{ asset('admin/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
 
-        // Initialiser DataTables
-        $(document).ready(function () {
-            $('.datatable').DataTable({
-                responsive: true,
-                autoWidth: false
-            });
-        });
+<!-- Summernote -->
+<script src="{{ asset('admin/plugins/summernote/summernote.min.js') }}"></script>
+<!-- Dropzone -->
+<script src="{{ asset('admin/plugins/dropzone/min/dropzone.min.js') }}"></script>
 
-        // Initialiser Summernote
-        $(document).ready(function () {
-            $('.editor').summernote({
-                tabsize: 2,
-                height: 150
-            });
-        });
-    </script>
+<script>
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
 
-    @yield('scripts')
-    @livewireScripts
-    @stack('scripts')
+// Initialiser DataTables
+$(document).ready(function() {
+    $('.datatable').DataTable({
+        responsive: true,
+        autoWidth: false
+    });
+});
+
+// Initialiser Summernote
+$(document).ready(function() {
+    $('.editor').summernote({
+        tabsize: 2,
+        height: 150
+    });
+});
+</script>
+
+@yield('scripts')
+@livewireScripts
+@stack('scripts')
 </body>
-
 </html>

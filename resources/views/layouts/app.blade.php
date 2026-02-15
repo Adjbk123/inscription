@@ -13,40 +13,62 @@
     <!-- Titre dynamique, défini dans les vues enfants -->
     <title>@yield('title')</title>
 
-    <!-- Favicon -->
-    <link rel="shortcut icon"
-        href="{{ $parametres?->photo ? asset('uploads/' . $parametres->photo) : asset('uploads/default.png') }}"
-        type="image/x-icon">
+    
 
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
-
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
 
     <!-- Polices Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
-    <!-- Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="{{ asset('admin/plugins/fontawesome-free/css/all.min.css') }}">
+    <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{{asset('admin/plugins/fontawesome-free/css/all.min.css') }}">
+  <!-- Ion Slider -->
+  <link rel="stylesheet" href="{{asset('admin/plugins/ion-rangeslider/css/ion.rangeSlider.min.css') }}">
+  <!-- bootstrap slider -->
+  <link rel="stylesheet" href="{{asset('admin/plugins/bootstrap-slider/css/bootstrap-slider.min.css') }}">
+    <!-- Font Awesome 4.7 pour les icônes -->
+     <!-- Font Awesome 6 (version recommandée) -->
 
-    <!-- Plugins Styles -->
-    <link rel="stylesheet" href="{{ asset('admin/plugins/summernote/summernote-bs4.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('admin/plugins/sweetalert2/sweetalert2.min.css') }}">
+
+ <link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    
+     <!-- Ionicons pour icônes -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+
+  <!-- Font Awesome 6 en CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+
+  <!-- Font Awesome local (AdminLTE) -->
+  <link rel="stylesheet" href="{{ asset('admin/plugins/fontawesome-free/css/all.min.css') }}">
+    <!-- Feuilles de styles CSS personnalisées -->
+    <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/custom.css') }}" rel="stylesheet">
+
+    <!-- Owl Carousel pour sliders -->
     <link href="{{ asset('assets/css/owl.carousel.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/css/owl.theme.default.min.css') }}" rel="stylesheet">
+
+    <!-- Plugin Exzoom pour zoom sur images produits -->
     <link href="{{ asset('assets/exzoom/jquery.exzoom.css') }}" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- AlertifyJS pour notifications -->
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css" />
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 
-    <!-- Theme Main Stylesheet -->
-    <link href="{{ asset('frontend/css/style.css') }}" rel="stylesheet">
-
-    <!-- Custom Stylesheet (Overwrites theme) -->
-    <link href="{{ asset('assets/css/custom.css') }}" rel="stylesheet">
+    <!-- jQuery UI CSS -->
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 
     @livewireStyles
 </head>
@@ -56,9 +78,6 @@
 
         {{-- Inclusion du navbar frontend --}}
         @include('layouts.inc.frontend.navbar')
-
-        {{-- Inclusion du breadcrumb public --}}
-        @include('layouts.inc.frontend.breadcrumb')
 
         {{-- Zone de contenu dynamique injectée par chaque page --}}
         <main class="flex-grow-1">
@@ -72,16 +91,20 @@
 
 
 
-
+    
 
 
     <!-- Scripts JS -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
-
-    <!-- AlertifyJS -->
+    <script src="{{ asset('assets\js\bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('assets\js\jquery-3.6.0.min.js') }}"></script>
+    
+    
+    {{-- AlertifyJS pour les notifications --}}
     <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+
+    <script src="{{ asset('admin/plugins/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('admin/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('admin/dist/js/adminlte.js') }}"></script>
 
     <script>
         // Écouteur d'événement personnalisé pour les notifications via AlertifyJS
@@ -91,28 +114,36 @@
         });
     </script>
 
-    <!-- Plugins -->
+    {{-- Owl Carousel JS --}}
     <script src="{{ asset('assets/js/owl.carousel.min.js') }}"></script>
+
+    {{-- Exzoom JS pour le zoom sur images produits --}}
     <script src="{{ asset('assets/exzoom/jquery.exzoom.js') }}"></script>
 
-    <script>
-        $(document).ready(function () {
-            // Fermer le menu mobile quand on clique sur un lien (pour les ancres)
-            $('.navbar-nav .nav-link').on('click', function () {
-                if ($('.navbar-toggler').is(':visible') && !$(this).hasClass('dropdown-toggle')) {
-                    const navbarCollapse = document.getElementById('navbarCollapse');
-                    if (navbarCollapse) {
-                        const bsCollapse = bootstrap.Collapse.getInstance(navbarCollapse) || new bootstrap.Collapse(navbarCollapse);
-                        bsCollapse.hide();
-                    }
-                }
-            });
-        });
-    </script>
+<!-- jQuery et jQuery UI JS -->
+
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+
+
+<script src="{{asset('admin/plugins/ion-rangeslider/js/ion.rangeSlider.min.js')}}"></script>
+<!-- Bootstrap slider -->
+ <!-- Summernote -->
+  <link rel="stylesheet" href="{{ asset('admin/plugins/summernote/summernote-bs4.min.css')}}">
+
+  <!-- SweetAlert2 -->
+  <link rel="stylesheet" href="{{ asset('admin/plugins/sweetalert2/sweetalert2.min.css')}}">
+    
+<!-- Bootstrap slider -->
+<script src="{{asset('admin/plugins/bootstrap-slider/bootstrap-slider.min.js')}}"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 
 
-
+    
     {{-- Section pour scripts spécifiques à chaque page --}}
     @yield('script')
 
@@ -122,7 +153,8 @@
     {{-- Pile pour scripts supplémentaires --}}
     @stack('scripts')
 
-
+    
 </body>
 
 </html>
+

@@ -16,56 +16,78 @@
 
                 {{-- ACCUEIL --}}
                 <li class="nav-item">
-                    <a href="{{ route('home') }}" class="nav-link {{ setMenuClass('home', 'active') }}">
+                    <a href="{{ route('home') }}" class="nav-link {{ setMenuClass('home','active') }}">
                         <i class="nav-icon fas fa-home"></i>
                         <p>Accueil</p>
                     </a>
                 </li>
 
-                {{-- MODULES PRINCIPAUX --}}
-                @can('employer')
-                    <li class="nav-item">
-                        <a href="{{ route('employer.gestinscriptions.inscriptions.index') }}"
-                            class="nav-link {{ setMenuClass('employer.gestinscriptions.', 'active') }}">
-                            <i class="nav-icon fas fa-file-signature text-warning"></i>
-                            <p>Inscriptions</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('employer.gestspecialites.specialites.index') }}"
-                            class="nav-link {{ setMenuClass('employer.gestspecialites.', 'active') }}">
-                            <i class="nav-icon fas fa-briefcase text-success"></i>
-                            <p>Spécialités</p>
-                        </a>
-                    </li>
-                @endcan
-
+                {{-- ADMIN --}}
                 @can('administrateur')
-                    <li class="nav-header">ADMINISTRATION</li>
-                    <li class="nav-item">
-                        <a href="{{ route('administrateur.gestutilisateurs.users.index') }}"
-                            class="nav-link {{ setMenuClass('administrateur.gestutilisateurs.', 'active') }}">
-                            <i class="nav-icon fas fa-users text-info"></i>
-                            <p>Utilisateurs</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('administrateur.gestparametres.parametres.index') }}"
-                            class="nav-link {{ setMenuClass('administrateur.gestparametres.', 'active') }}">
-                            <i class="nav-icon fas fa-cogs"></i>
-                            <p>Paramètres</p>
-                        </a>
-                    </li>
+                <li class="nav-item has-treeview {{ setMenuClass('administrateur.','menu-open') }}">
+                    <a href="#" class="nav-link {{ setMenuClass('administrateur.','active') }}">
+                        <i class="nav-icon fas fa-user-shield text-info"></i>
+                        <p>Administration <i class="right fas fa-angle-left"></i></p>
+                    </a>
+                    <ul class="nav nav-treeview">
+
+                        <li class="nav-item">
+                            <a href="{{ route('administrateur.dashboard') }}" class="nav-link {{ setMenuClass('administrateur.dashboard','active') }}">
+                                <i class="fas fa-chart-line nav-icon"></i>
+                                <p>Tableau de bord</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="{{ route('administrateur.gestutilisateurs.users.index') }}" class="nav-link {{ setMenuClass('administrateur.gestutilisateurs.','active') }}">
+                                <i class="fas fa-users nav-icon"></i>
+                                <p>Utilisateurs</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="{{ route('administrateur.gestparametres.parametres.index') }}" class="nav-link {{ setMenuClass('administrateur.gestparametres.','active') }}">
+                                <i class="fas fa-cogs nav-icon"></i>
+                                <p>Paramètres</p>
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
                 @endcan
 
-                <li class="nav-header">MON COMPTE</li>
-                <li class="nav-item">
-                    <a href="{{ route('profile.edit') }}"
-                        class="nav-link {{ request()->routeIs('profile.edit') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-user-circle"></i>
-                        <p>Mon Profil</p>
+                {{-- EMPLOYER --}}
+                @can('employer')
+                <li class="nav-item has-treeview {{ setMenuClass('employer.','menu-open') }}">
+                    <a href="#" class="nav-link {{ setMenuClass('employer.','active') }}">
+                        <i class="nav-icon fas fa-user-tie text-warning"></i>
+                        <p>Gestion RH <i class="right fas fa-angle-left"></i></p>
                     </a>
+                    <ul class="nav nav-treeview">
+
+                        <li class="nav-item">
+                            <a href="{{ route('employer.gestinscriptions.inscriptions.index') }}" class="nav-link {{ setMenuClass('employer.gestinscriptions.','active') }}">
+                                <i class="fas fa-file-signature nav-icon"></i>
+                                <p>
+                                    Inscriptions
+                                    <span class="badge badge-info right"></span>
+                                </p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="{{ route('employer.gestspecialites.specialites.index') }}" class="nav-link {{ setMenuClass('employer.gestspecialites.','active') }}">
+                                <i class="fas fa-briefcase nav-icon"></i>
+                                <p>
+                                    Personnels
+                                    <span class="badge badge-success right"></span>
+                                </p>
+                            </a>
+                        </li>
+
+                    </ul>
                 </li>
+                @endcan
 
             </ul>
         </nav>
