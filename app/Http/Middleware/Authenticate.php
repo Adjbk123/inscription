@@ -23,10 +23,8 @@ class Authenticate
             // Redirection selon le type de guard
             if ($guard === 'administrateur') {
                 header("Location: /admin/login");
-            } 
-            else {
-                
-                header("Location: /login");
+            } else {
+                header("Location: /frontend.login");
             }
 
             exit; // stoppe l’exécution

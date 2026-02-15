@@ -1,4 +1,6 @@
 @extends('layouts.app')
+@section('title', 'Connexion')
+@section('breadcrumb_title', 'Accès à votre Espace')
 
 @section('content')
 <div class="container py-5">
@@ -19,12 +21,6 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fermer"></button>
                 </div>
             @endif
-
-            <!-- Titre -->
-            <div class="text-center mb-4 fade-in">
-                <h2 class="fw-bold" style="color:#2c3e50;">Connexion</h2>
-                <p class="text-muted">Accédez à votre espace personnel</p>
-            </div>
 
             <!-- Carte animée -->
             <div class="card shadow-lg border-0 rounded-4 fade-in-up">

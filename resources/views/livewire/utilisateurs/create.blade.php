@@ -1,65 +1,74 @@
-<div class="row p-3 p-md-4 pt-5 justify-content-center">
-    <div class="col-12 col-sm-12 col-md-12">
-        <div class="card card-primary shadow-sm">
-            <div class="card-header bg-primary text-white">
-                <h3 class="card-title">
-                    <i class="fas fa-user-plus fa-2x"></i> Formulaire de création d'un nouvel Utilisateur
-                </h3>
+<div class="container-fluid py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-12">
+            {{-- Simple Header --}}
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h4 class="fw-bold text-dark mb-1">Nouvel Utilisateur</h4>
+                    <p class="text-muted small mb-0">Remplissez les informations pour créer un accès.</p>
+                </div>
+                <button type="button" wire:click="goToListUser"
+                    class="btn btn-link text-decoration-none text-muted p-0 small">
+                    <i class="fas fa-arrow-left me-1"></i> Retour à la liste
+                </button>
             </div>
 
-            <form role="form" wire:submit.prevent="addUser" enctype="multipart/form-data">
-                <div class="card-body">
+            <div class="card border-0 shadow-sm rounded-3">
+                <div class="card-body p-4">
+                    <form wire:submit.prevent="addUser">
+                        {{-- Nom --}}
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold text-muted text-uppercase"
+                                style="letter-spacing: 0.5px;">Nom complet</label>
+                            <input type="text" wire:model="newUser.name"
+                                class="form-control form-control-sm border-light bg-light rounded-2 @error('newUser.name') is-invalid @enderror"
+                                placeholder="Ex: Jean Dupont">
+                            @error('newUser.name')
+                                <div class="invalid-feedback smallest">{{ $message }}</div>
+                            @enderror
+                        </div>
 
-                    {{-- Nom --}}
-                    <div class="form-group mb-3">
-                        <label for="">Nom</label>
-                        <input type="text" wire:model="newUser.name" 
-                               class="form-control @error('newUser.name') is-invalid @enderror">
-                        @error('newUser.name')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
+                        {{-- Email --}}
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold text-muted text-uppercase"
+                                style="letter-spacing: 0.5px;">Adresse e-mail</label>
+                            <input type="email" wire:model="newUser.email"
+                                class="form-control form-control-sm border-light bg-light rounded-2 @error('newUser.email') is-invalid @enderror"
+                                placeholder="email@exemple.com">
+                            @error('newUser.email')
+                                <div class="invalid-feedback smallest">{{ $message }}</div>
+                            @enderror
+                        </div>
 
-                    {{-- Email --}}
-                    <div class="form-group mb-3">
-                        <label for="">Adresse e-mail</label>
-                        <input type="email" wire:model="newUser.email" 
-                               class="form-control @error('newUser.email') is-invalid @enderror">
-                        @error('newUser.email')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
+                        {{-- Mot de passe Info --}}
+                        <div class="bg-light p-3 rounded-3 mb-4 border-start border-primary border-4">
+                            <div class="small fw-bold text-dark mb-1">Sécurité</div>
+                            <p class="text-muted smallest mb-0">Le mot de passe par défaut est : <strong
+                                    class="text-primary">azertyui</strong>. L'utilisateur pourra le modifier après sa
+                                première connexion.</p>
+                        </div>
 
-                    {{-- Mot de passe --}}
-                    <div class="form-group mb-3">
-                        <label for="">Mot de passe <span class="text-danger">(par défaut: azertyui)</span></label>
-                        <input type="password" class="form-control" placeholder="Password (par défaut: azertyui)">
-                    </div>
-
+                        {{-- Actions --}}
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-sm py-2 rounded-pill fw-bold shadow-sm">
+                                <i class="fas fa-check me-2"></i> Créer le compte
+                            </button>
+                        </div>
+                    </form>
                 </div>
-
-                <div class="card-footer d-flex flex-column flex-sm-row justify-content-between gap-2">
-                    <button type="submit" class="btn btn-primary flex-fill">Enregistrer</button>
-                    <button type="button" wire:click="goToListUser" class="btn btn-danger flex-fill">Retourner à la liste des utilisateurs</button>
-                </div>
-            </form>
+            </div>
         </div>
     </div>
 </div>
 
 <style>
-/* Petite ombre pour le card et bord arrondi */
-.card-primary {
-    border-radius: 12px;
-}
+    .smallest {
+        font-size: 0.7rem;
+    }
 
-/* Responsive spacing sur mobile */
-@media (max-width: 576px) {
-    .card-body input.form-control {
-        font-size: 0.95rem;
+    .form-control:focus {
+        background-color: #fff;
+        border-color: #4761FF;
+        box-shadow: none;
     }
-    .card-footer button {
-        width: 100%;
-    }
-}
 </style>

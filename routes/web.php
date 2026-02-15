@@ -12,7 +12,12 @@ use App\Http\Controllers\HomeController;
 ///  return view('welcome');
 //});
 
-Auth::routes();
+Auth::routes(['login' => false]);
+
+// Redirection de l'ancienne page de login vers la nouvelle
+Route::get('/login', function () {
+    return redirect()->route('frontend.login');
+});
 
 Route::controller(App\Http\Controllers\Frontend\FrontendController::class)->group(function () {
     Route::get('/', 'index'); // Accueil
@@ -73,7 +78,7 @@ Route::group([
 
 
 
-    
+
 });
 
 
@@ -83,13 +88,13 @@ Route::group([
     'as' => 'employer.'
 ], function () {
 
-    
-     Route::group([
+
+    Route::group([
         "prefix" => "gestinscriptions",
-     'as' => 'gestinscriptions.'
+        'as' => 'gestinscriptions.'
     ], function () {
-        
-Route::get('/', [App\Http\Controllers\InscriptionController::class, 'index'])->name('inscriptions.index');
+
+        Route::get('/', [App\Http\Controllers\InscriptionController::class, 'index'])->name('inscriptions.index');
         Route::get('/create', [App\Http\Controllers\InscriptionController::class, 'create'])->name('inscriptions.create');
         Route::post('/store', [App\Http\Controllers\InscriptionController::class, 'store'])->name('inscriptions.store');
         Route::get('/{inscription}/edit', [App\Http\Controllers\InscriptionController::class, 'edit'])->name('inscriptions.edit');
@@ -107,18 +112,19 @@ Route::get('/', [App\Http\Controllers\InscriptionController::class, 'index'])->n
 
         Route::get('/inscriptions/pdf-commune', [App\Http\Controllers\InscriptionController::class, 'pdfAcceptesCommune'])
             ->name('inscriptions.pdfCommune');
-// 👇 AJOUTE CETTE ROUTE ICI
-        Route::get('/pdf/specialite/{id}', 
+        // 👇 AJOUTE CETTE ROUTE ICI
+        Route::get(
+            '/pdf/specialite/{id}',
             [App\Http\Controllers\InscriptionController::class, 'pdfAcceptesSpecialite']
         )->name('inscriptions.pdfSpecialite');
-        
+
     });
 
     Route::group([
         "prefix" => "gestspecialites",
         'as' => 'gestspecialites.'
     ], function () {
-      Route::get('/', [App\Http\Controllers\SpecialiteController::class, 'index'])->name('specialites.index');
+        Route::get('/', [App\Http\Controllers\SpecialiteController::class, 'index'])->name('specialites.index');
         Route::get('/create', [App\Http\Controllers\SpecialiteController::class, 'create'])->name('specialites.create');
         Route::post('/store', [App\Http\Controllers\SpecialiteController::class, 'store'])->name('specialites.store');
         Route::get('/{specialite}/edit', [App\Http\Controllers\SpecialiteController::class, 'edit'])->name('specialites.edit');
@@ -126,12 +132,18 @@ Route::get('/', [App\Http\Controllers\InscriptionController::class, 'index'])->n
         Route::delete('/{specialite}', [App\Http\Controllers\SpecialiteController::class, 'destroy'])->name('specialites.destroy');
 
         Route::post('/{specialite}/toggle-statut', [App\Http\Controllers\SpecialiteController::class, 'toggleStatut'])
-            ->name('specialites.toggleStatut'); 
+            ->name('specialites.toggleStatut');
 
     });
-    
 
 
+
+});
+
+// Gestion du profil
+Route::middleware(['auth'])->group(function () {
+    Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile', [App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
 });
 
 

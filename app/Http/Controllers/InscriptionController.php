@@ -15,13 +15,18 @@ use Illuminate\Support\Str;
 
 class InscriptionController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $inscriptions = Inscription::with(['departement', 'commune', 'specialite'])
-            ->orderBy('created_at', 'desc')
-            ->paginate(10);
+        $query = Inscription::with(['departement', 'commune', 'specialite']);
 
-        $specialites = Specialite::all(); // <-- AJOUT IMPORTANT
+        if ($request->has('specialite') && !empty($request->specialite)) {
+            $query->where('specialite_id', $request->specialite);
+        }
+
+        $inscriptions = $query->orderBy('created_at', 'desc')
+            ->paginate(15);
+
+        $specialites = Specialite::all();
 
         return view('inscriptions.index', compact('inscriptions', 'specialites'));
     }
@@ -39,7 +44,7 @@ class InscriptionController extends Controller
         $inscription->delete();
 
         return redirect()->route('employer.gestinscriptions.inscriptions.index')
-                         ->with('success', 'Inscription supprimée avec succès !');
+            ->with('success', 'Inscription supprimée avec succès !');
     }
 
     public function accepter($id)
@@ -64,70 +69,66 @@ class InscriptionController extends Controller
         return back()->with('success', 'Formateur refusé et email envoyé.');
     }
 
-    // PDF 1 : Acceptés par ordre alphabétique
+    // PDF 1 : Candidatures par ordre alphabétique
     public function pdfAcceptesAlpha()
     {
         $parametres = Parametre::first();
 
         $inscriptions = Inscription::with(['departement', 'commune', 'specialite'])
-            ->where('statut', 'accepte')
             ->orderBy('name', 'asc')
             ->get();
 
-        $pdf = Pdf::loadView('pdf.acceptes_alpha', compact('inscriptions','parametres'));
+        $pdf = Pdf::loadView('pdf.acceptes_alpha', compact('inscriptions', 'parametres'));
 
-        return $pdf->download('formateurs_acceptes_alphabetique.pdf');
+        return $pdf->download('liste_candidatures_alphabetique.pdf');
     }
 
-    // PDF 2 : Acceptés par département
+    // PDF 2 : Candidatures par département
     public function pdfAcceptesDepartement()
     {
         $parametres = Parametre::first();
 
-        $inscriptions = Inscription::with(['departement','commune','specialite'])
-            ->where('statut', 'accepte')
+        $inscriptions = Inscription::with(['departement', 'commune', 'specialite'])
             ->get()
-            ->groupBy(function($item) {
+            ->groupBy(function ($item) {
                 return $item->departement->nom ?? 'Sans Département';
             });
 
-        $pdf = Pdf::loadView('pdf.acceptes_par_departement', compact('inscriptions','parametres'));
+        $pdf = Pdf::loadView('pdf.acceptes_par_departement', compact('inscriptions', 'parametres'));
 
-        return $pdf->download('formateurs_acceptes_par_departement.pdf');
+        return $pdf->download('liste_candidatures_departement.pdf');
     }
 
-    // PDF 3 : Acceptés par commune
+    // PDF 3 : Candidatures par commune
     public function pdfAcceptesCommune()
     {
         $parametres = Parametre::first();
 
-        $inscriptions = Inscription::with(['departement','commune','specialite'])
-            ->where('statut','accepte')
+        $inscriptions = Inscription::with(['departement', 'commune', 'specialite'])
             ->get()
-            ->groupBy(function($item){
+            ->groupBy(function ($item) {
                 return $item->commune->nom ?? 'Sans Commune';
             });
 
-        $pdf = Pdf::loadView('pdf.acceptes_par_commune', compact('inscriptions','parametres'));
+        $pdf = Pdf::loadView('pdf.acceptes_par_commune', compact('inscriptions', 'parametres'));
 
-        return $pdf->download('formateurs_acceptes_par_commune.pdf');
+        return $pdf->download('liste_candidatures_commune.pdf');
     }
 
-    // PDF 4 : Acceptés par spécialité
+    // PDF 4 : Candidatures par spécialité
     public function pdfAcceptesSpecialite($id)
     {
         $parametres = Parametre::first();
 
         $specialite = Specialite::findOrFail($id);
 
-        $inscriptions = Inscription::with(['departement', 'commune','specialite'])
-            ->where('statut', 'accepte')
+        $inscriptions = Inscription::with(['departement', 'commune', 'specialite'])
             ->where('specialite_id', $id)
             ->orderBy('name', 'asc')
             ->get();
 
-        $pdf = Pdf::loadView('pdf.acceptes_par_specialite', compact('inscriptions','specialite','parametres'));
+        $pdf = Pdf::loadView('pdf.acceptes_par_specialite', compact('inscriptions', 'specialite', 'parametres'));
 
-        return $pdf->download('formateurs_acceptes_' . Str::slug($specialite->nom) . '.pdf');
+        return $pdf->download('liste_candidatures_' . Str::slug($specialite->nom) . '.pdf');
     }
 }

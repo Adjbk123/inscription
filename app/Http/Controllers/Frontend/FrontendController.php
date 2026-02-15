@@ -43,7 +43,7 @@ class FrontendController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended('/')->with('success', 'Connecté avec succès !');
+            return redirect()->intended('/home')->with('success', 'Connecté avec succès !');
         }
 
         return back()->withErrors(['email' => 'Email ou mot de passe incorrect']);
@@ -69,7 +69,7 @@ class FrontendController extends Controller
         ]);
 
         Auth::login($user);
-        return redirect('/')->with('success', 'Inscrit avec succès !');
+        return redirect('/home')->with('success', 'Inscrit avec succès !');
     }
 
     public function logout(Request $request)
@@ -83,11 +83,17 @@ class FrontendController extends Controller
     // -----------------------------
     // Formulaire de recrutement / inscription
     // -----------------------------
-    public function recrutementForm()
+    public function recrutementForm(Request $request)
     {
         $departements = Departement::all();
-        $specialites = Specialite::where('statut', 'visible')->get(); // Seules les spécialités visibles
-        return view('frontend.pages.recrutement', compact('departements', 'specialites'));
+        $specialites = Specialite::where('statut', 'visible')->get();
+
+        $selectedSpecialite = null;
+        if ($request->has('specialite')) {
+            $selectedSpecialite = Specialite::find($request->specialite);
+        }
+
+        return view('frontend.pages.recrutement', compact('departements', 'specialites', 'selectedSpecialite'));
     }
 
     public function recrutementSubmit(Request $request)
@@ -98,9 +104,21 @@ class FrontendController extends Controller
             'email' => 'required|email|unique:inscriptions,email',
             'departement_id' => 'required|exists:departements,id',
             'commune_id' => 'required|exists:communes,id',
-            'specialite_id' => 'required|exists:specialites,id', // validation spécialité
-            'fichier' => 'required|file|mimes:pdf|max:10240', // 10 Mo
+            'specialite_id' => 'required|exists:specialites,id',
+            'fichier' => 'required|file|max:30720', // 30 Mo
         ]);
+
+        // Détection manuelle permissive pour débugger
+        if ($request->hasFile('fichier')) {
+            $file = $request->file('fichier');
+            $extension = strtolower($file->getClientOriginalExtension());
+            $mimeType = $file->getMimeType();
+
+            // On accepte TOUT ce qui finit par .pdf pour ce test de déblocage
+            if ($extension !== 'pdf' && !str_contains($mimeType, 'pdf')) {
+                return back()->withErrors(['fichier' => "Format non reconnu : extension=$extension, mime=$mimeType. Veuillez fournir un vrai PDF."])->withInput();
+            }
+        }
 
         $filename = null;
         if ($request->hasFile('fichier')) {
@@ -127,7 +145,8 @@ class FrontendController extends Controller
     public function recrutementMerci($id)
     {
         $inscription = Inscription::findOrFail($id);
-        return view('frontend.pages.merci', compact('inscription'));
+        $parametres = Parametre::first();
+        return view('frontend.pages.merci', compact('inscription', 'parametres'));
     }
 
     // -----------------------------

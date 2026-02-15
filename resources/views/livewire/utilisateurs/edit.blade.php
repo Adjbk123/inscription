@@ -1,145 +1,134 @@
-<div class="row p-4 pt-5">
-    <!-- Formulaire infos utilisateur -->
-    <div class="col-md-6 mb-4">
-        <div class="card card-primary shadow-sm">
-            <div class="card-header">
-                <h3 class="card-title">
-                    <i class="fas fa-user-plus fa-2x"></i> Formulaire d'édition utilisateur
-                </h3>
-            </div>
-
-            <form role="form" wire:submit.prevent="updateUser" enctype="multipart/form-data">
-                <div class="card-body">
-
-                    {{-- Nom --}}
-                    <div class="form-group">
-                        <label for="">Nom</label>
-                        <input type="text" wire:model="editUser.name" 
-                               class="form-control @error('editUser.name') is-invalid @enderror">
-                        @error('editUser.name')
-                            <span class="text-danger small">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    {{-- Email --}}
-                    <div class="form-group">
-                        <label for="">Adresse e-mail</label>
-                        <input type="email" wire:model="editUser.email" 
-                               class="form-control @error('editUser.email') is-invalid @enderror">
-                        @error('editUser.email')
-                            <span class="text-danger small">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                </div>
-
-                <div class="card-footer d-flex flex-column flex-sm-row gap-2">
-                    <button type="submit" class="btn btn-primary flex-fill">Appliquer la Modification</button>
-                    <button type="button" wire:click="goToListUser" class="btn btn-danger flex-fill">Retour à la liste</button>
-                </div>
-            </form>
+<div class="container-fluid py-4">
+    {{-- Header --}}
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h4 class="fw-bold text-dark mb-1">Édition Utilisateur</h4>
+            <p class="text-muted small mb-0">Modifiez les informations et les accès du compte.</p>
         </div>
+        <button type="button" wire:click="goToListUser" class="btn btn-link text-decoration-none text-muted p-0 small">
+            <i class="fas fa-arrow-left me-1"></i> Retour à la liste
+        </button>
     </div>
 
-    <!-- Mot de passe & rôles -->
-    <div class="col-md-6 mb-4">
-        <div class="row">
+    <div class="row g-4">
+        <!-- Infos de base & Mot de passe -->
+        <div class="col-lg-12">
+            {{-- Infos de base --}}
+            <div class="card border-0 shadow-sm rounded-3 mb-4">
+                <div class="card-header bg-white border-0 py-3 px-4">
+                    <h6 class="fw-bold text-dark mb-0">Informations Générales</h6>
+                </div>
+                <div class="card-body p-4 pt-0">
+                    <form wire:submit.prevent="updateUser">
+                        <div class="mb-3">
+                            <label class="form-label smallest fw-bold text-muted text-uppercase">Nom complet</label>
+                            <input type="text" wire:model="editUser.name"
+                                class="form-control form-control-sm border-light bg-light rounded-2 @error('editUser.name') is-invalid @enderror">
+                            @error('editUser.name') <div class="invalid-feedback smallest">{{ $message }}</div>
+                            @enderror
+                        </div>
 
-            {{-- Reset password --}}
-            <div class="col-12 mb-4">
-                <div class="card card-primary shadow-sm">
-                    <div class="card-header">
-                        <h3 class="card-title">
-                            <i class="fas fa-key fa-2x"></i> Réinitialisation de mot de passe
-                        </h3>
-                    </div>
-                    <div class="card-body">
-                        <form wire:submit.prevent="updatePassword">
-                            <div class="mb-3">
-                                <label class="form-label">Mot de passe actuel</label>
-                                <input type="password" class="form-control" wire:model="current_password">
-                                @error('current_password') 
-                                    <span class="text-danger small">{{ $message }}</span> 
-                                @enderror
-                            </div>
+                        <div class="mb-3">
+                            <label class="form-label smallest fw-bold text-muted text-uppercase">Adresse e-mail</label>
+                            <input type="email" wire:model="editUser.email"
+                                class="form-control form-control-sm border-light bg-light rounded-2 @error('editUser.email') is-invalid @enderror">
+                            @error('editUser.email') <div class="invalid-feedback smallest">{{ $message }}</div>
+                            @enderror
+                        </div>
 
-                            <div class="mb-3">
-                                <label class="form-label">Nouveau mot de passe</label>
-                                <input type="password" class="form-control" wire:model="new_password">
-                                @error('new_password') 
-                                    <span class="text-danger small">{{ $message }}</span> 
-                                @enderror
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="form-label">Confirmer le nouveau mot de passe</label>
-                                <input type="password" class="form-control" wire:model="new_password_confirmation">
-                            </div>
-
-                            <div class="text-end">
-                                <button class="btn btn-success" type="submit">
-                                    <i class="fas fa-check"></i> Changer le mot de passe
-                                </button>
-                            </div>
-                        </form>
-                    </div>
+                        <div class="d-grid mt-4">
+                            <button type="submit" class="btn btn-primary btn-sm py-2 rounded-pill fw-bold shadow-sm">
+                                Mettre à jour les infos
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
 
-            {{-- Roles & permissions --}}
-            <div class="col-12">
-                <div class="card card-primary shadow-sm">
-                    <div class="card-header d-flex align-items-center">
-                        <h3 class="card-title flex-grow-1">
-                            <i class="fas fa-fingerprint fa-2x"></i> Roles & permissions
-                        </h3>
-                        <button class="btn bg-gradient-success" wire:click="updateRoleAndPermissions">
-                            <i class="fas fa-check"></i> Appliquer
-                        </button>
-                    </div>
-
-                    <div class="card-body">
-                        <div id="accordion">
-                            @foreach($rolePermissions["roles"] as $role)
-                                <div class="card mb-2">
-                                    <div class="card-header d-flex justify-content-between">
-                                        <h4 class="card-title flex-grow-1">
-                                            <a href="#">{{ $role["role_nom"] }}</a>
-                                        </h4>
-                                        <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
-                                            <input type="checkbox" class="custom-control-input"
-                                                   id="roleSwitch{{ $role['role_id'] }}"
-                                                   wire:model.lazy="rolePermissions.roles.{{ $loop->index }}.active">
-                                            <label class="custom-control-label" for="roleSwitch{{ $role['role_id'] }}">
-                                                {{ $role["active"] ? "Activé" : "Désactivé" }}
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
+            {{-- Changement de mot de passe --}}
+            <div class="card border-0 shadow-sm rounded-3">
+                <div class="card-header bg-white border-0 py-3 px-4">
+                    <h6 class="fw-bold text-dark mb-0">Changer de mot de passe</h6>
+                </div>
+                <div class="card-body p-4 pt-0">
+                    <form wire:submit.prevent="updatePassword">
+                        <div class="mb-3">
+                            <label class="form-label smallest fw-bold text-muted text-uppercase">Mot de passe
+                                actuel</label>
+                            <input type="password" wire:model="current_password"
+                                class="form-control form-control-sm border-light bg-light rounded-2 @error('current_password') is-invalid @enderror">
+                            @error('current_password') <div class="invalid-feedback smallest">{{ $message }}</div>
+                            @enderror
                         </div>
+
+                        <div class="row g-2">
+                            <div class="col-6">
+                                <label class="form-label smallest fw-bold text-muted text-uppercase">Nouveau</label>
+                                <input type="password" wire:model="new_password"
+                                    class="form-control form-control-sm border-light bg-light rounded-2 @error('new_password') is-invalid @enderror">
+                                @error('new_password') <div class="invalid-feedback smallest">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="col-6">
+                                <label
+                                    class="form-label smallest fw-bold text-muted text-uppercase">Confirmation</label>
+                                <input type="password" wire:model="new_password_confirmation"
+                                    class="form-control form-control-sm border-light bg-light rounded-2">
+                            </div>
+                        </div>
+
+                        <div class="d-grid mt-4">
+                            <button type="submit" class="btn btn-dark btn-sm py-2 rounded-pill fw-bold shadow-sm">
+                                Changer le mot de passe
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rôles & Permissions -->
+        <div class="col-lg-12">
+            <div class="card border-0 shadow-sm rounded-3">
+                <div class="card-header bg-white border-0 py-3 px-4 d-flex justify-content-between align-items-center">
+                    <h6 class="fw-bold text-dark mb-0">Rôles & Permissions</h6>
+                    <button class="btn btn-success btn-sm rounded-pill px-3 fw-bold"
+                        wire:click="updateRoleAndPermissions">
+                        <i class="fas fa-check me-1"></i> Appliquer
+                    </button>
+                </div>
+                <div class="card-body p-4 pt-0">
+                    <p class="text-muted smallest mb-3">Activez ou désactivez les rôles assignés à cet utilisateur.</p>
+
+                    <div class="list-group list-group-flush mb-4">
+                        @foreach($rolePermissions["roles"] as $role)
+                            <div
+                                class="list-group-item px-0 py-3 border-light d-flex justify-content-between align-items-center">
+                                <div>
+                                    <div class="fw-bold text-dark small">{{ $role["role_nom"] }}</div>
+                                    <div class="smallest text-muted">Accès {{ strtolower($role["role_nom"]) }}</div>
+                                </div>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="roleSwitch{{ $role['role_id'] }}"
+                                        wire:model.lazy="rolePermissions.roles.{{ $loop->index }}.active">
+                                </div>
+                            </div>
+                        @endforeach
                     </div>
 
-                    <div class="p-3 table-responsive">
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>Permissions</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
+                    <h6 class="smallest fw-bold text-muted text-uppercase mb-3" style="letter-spacing: 1px;">Permissions
+                        spécifiques</h6>
+                    <div class="table-responsive">
+                        <table class="table table-sm table-hover align-middle mb-0">
                             <tbody>
                                 @foreach($rolePermissions["permissions"] as $permission)
                                     <tr>
-                                        <td>{{ $permission["permission_nom"] }}</td>
-                                        <td>
-                                            <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
-                                                <input type="checkbox" class="custom-control-input"
-                                                       id="permSwitch{{ $permission['permission_id'] }}"
-                                                       wire:model.lazy="rolePermissions.permissions.{{ $loop->index }}.active">
-                                                <label class="custom-control-label" for="permSwitch{{ $permission['permission_id'] }}">
-                                                    {{ $permission["active"] ? "Activé" : "Désactivé" }}
-                                                </label>
+                                        <td class="small py-2 ps-0 border-light">{{ $permission["permission_nom"] }}</td>
+                                        <td class="text-end pe-0 border-light">
+                                            <div class="form-check form-switch d-inline-block">
+                                                <input class="form-check-input" type="checkbox"
+                                                    id="permSwitch{{ $permission['permission_id'] }}"
+                                                    wire:model.lazy="rolePermissions.permissions.{{ $loop->index }}.active">
                                             </div>
                                         </td>
                                     </tr>
@@ -147,27 +136,25 @@
                             </tbody>
                         </table>
                     </div>
-
                 </div>
             </div>
-
         </div>
     </div>
 </div>
 
 <style>
-.card {
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-}
+    .smallest {
+        font-size: 0.7rem;
+    }
 
-.card-header {
-    font-weight: bold;
-    font-size: 1.1rem;
-}
+    .form-control:focus {
+        background-color: #fff;
+        border-color: #4761FF;
+        box-shadow: none;
+    }
 
-.form-group label,
-.form-label {
-    font-weight: 500;
-}
+    .form-check-input:checked {
+        background-color: #198754;
+        border-color: #198754;
+    }
 </style>

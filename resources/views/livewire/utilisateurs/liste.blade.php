@@ -1,101 +1,125 @@
-<div class="row p-4 pt-5">
-    <div class="col-12">
-
-        {{-- Messages de session --}}
-        @if (session()->has('message'))
-            <div class="alert alert-success text-center">{{ session('message') }}</div>
-        @endif
-        @if (session()->has('error'))
-            <div class="alert alert-danger text-center">{{ session('error') }}</div>
-        @endif
-
-        <div class="card shadow-sm">
-            <div class="card-header bg-gradient-primary d-flex flex-column flex-md-row align-items-center justify-content-between gap-2">
-
-    {{-- Titre --}}
-    <h3 class="card-title d-flex align-items-center gap-2 mb-2 mb-md-0">
-        <i class="fas fa-users fa-2x"></i> Liste des utilisateurs
-    </h3>
-
-    {{-- Bouton Ajouter + Recherche --}}
-    <div class="d-flex align-items-center gap-2 ms-md-auto">
-
-        {{-- Bouton Ajouter utilisateur --}}
-       
-
-        
-{{--<button class="btn btn-light btn-sm"
-                wire:click="goToAddUser">
-            <i class="fas fa-plus-circle"></i> Ajouter utilisateur
-        </button> --}}
+@section('title', 'Utilisateurs')
+<div class="container-fluid py-4">
+    {{-- Simple Header --}}
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h4 class="fw-bold text-dark mb-1">Gérer le Personnel</h4>
+            <p class="text-muted small mb-0">Total : {{ $users->total() }} comptes actifs.</p>
+        </div>
+        <div>
+            <button class="btn btn-primary btn-sm rounded-pill px-3 fw-bold shadow-sm" wire:click="goToAddUser">
+                <i class="fas fa-plus me-1"></i> Nouvel utilisateur
+            </button>
+        </div>
     </div>
-</div>
 
-            {{-- Corps de la table --}}
-            <div class="card-body table-responsive p-0" style="max-height: 400px;">
-                <table class="table table-head-fixed table-striped table-hover mb-0">
-                    <thead>
+    {{-- Search Area --}}
+    <div class="row mb-4">
+        <div class="col-md-5">
+            <div class="input-group input-group-sm bg-white border rounded-3 px-2 py-1 shadow-sm">
+                <span class="input-group-text bg-transparent border-0 text-muted"><i
+                        class="fas fa-search pe-2 border-end"></i></span>
+                <input type="text" class="form-control border-0 bg-transparent"
+                    placeholder="Rechercher par nom ou email..." wire:model.live="search">
+            </div>
+        </div>
+    </div>
+
+    {{-- Users Table --}}
+    <div class="card border-0 shadow-sm rounded-3 overflow-hidden">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="bg-light text-secondary">
                         <tr>
-                            <th style="width:20%;">Utilisateurs</th>
-                            <th style="width:15%;">Rôles</th>
-                            <th style="width:15%;" class="text-center">Ajouté</th>
-                            <th style="width:25%;" class="text-center">Action</th>
+                            <th class="ps-4 py-2 small border-0 fw-bold">NOM & EMAIL</th>
+                            <th class="py-2 small border-0 fw-bold">RÔLES</th>
+                            <th class="py-2 small border-0 text-center fw-bold">CRÉÉ LE</th>
+                            <th class="pe-4 py-2 small border-0 text-end fw-bold">ACTIONS</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse($users as $user)
-                        <tr>
-                            <td>{{ $user->name }}</td>
-                            <td>{{ $user->allRoleNames }}</td>
-                            <td class="text-center">
-                                <span class="badge badge-success">{{ $user->created_at->diffForHumans() }}</span>
-                            </td>
-                            <td class="text-center">
-                                <button class="btn btn-sm btn-outline-primary" wire:click="goToEditUser({{ $user->id }})" title="Modifier">
-                                    <i class="far fa-edit"></i>
-                                </button>
-                                <button class="btn btn-sm btn-outline-danger" wire:click="confirmDelete({{ $user->id }})" title="Supprimer">
-                                    <i class="far fa-trash-alt"></i>
-                                </button>
-                            </td>
-                        </tr>
+                            <tr class="border-bottom border-light">
+                                <td class="ps-4 py-3">
+                                    <div class="fw-bold text-dark small">{{ $user->name }}</div>
+                                    <div class="text-muted smallest">{{ $user->email }}</div>
+                                </td>
+                                <td>
+                                    @php
+                                        $roles = $user->roles->pluck('nom')->toArray();
+                                    @endphp
+                                    @foreach($roles as $role)
+                                        <span class="badge border text-primary px-2 py-1 rounded-pill bg-light fw-normal"
+                                            style="font-size: 0.65rem;">
+                                            {{ $role }}
+                                        </span>
+                                    @endforeach
+                                    @if(empty($roles))
+                                        <span class="text-muted smallest italic">Aucun rôle</span>
+                                    @endif
+                                </td>
+                                <td class="text-center">
+                                    <span class="small text-muted">{{ $user->created_at->format('d/m/Y') }}</span>
+                                </td>
+                                <td class="pe-4 text-end">
+                                    <div class="d-flex justify-content-end gap-3">
+                                        <button class="btn btn-link text-primary p-0 btn-sm text-decoration-none"
+                                            wire:click="goToEditUser({{ $user->id }})" title="Modifier">
+                                            <i class="far fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-link text-danger p-0 btn-sm text-decoration-none"
+                                            wire:click="confirmDelete({{ $user->id }})" title="Supprimer">
+                                            <i class="far fa-trash-alt"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
                         @empty
-                        <tr>
-                            <td colspan="4" class="text-center text-danger">
-                                Aucun utilisateur trouvé pour : <strong>{{ $search }}</strong>
-                            </td>
-                        </tr>
+                            <tr>
+                                <td colspan="4" class="py-5 text-center text-muted">
+                                    <p class="mb-0">Aucun utilisateur correspondant à votre recherche.</p>
+                                </td>
+                            </tr>
                         @endforelse
                     </tbody>
                 </table>
             </div>
-
-            {{-- Pagination --}}
-            <div class="card-footer d-flex justify-content-center">
-                {{ $users->links() }}
-            </div>
+        </div>
+        <div class="card-footer bg-white border-0 py-3 d-flex justify-content-end">
+            {{ $users->links() }}
         </div>
     </div>
 </div>
 
-{{-- Modal de confirmation Livewire --}}
+{{-- Modal Simple Minimaliste --}}
 @if($confirmingUserId)
-<div class="modal fade show d-block" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content shadow-lg">
-            <div class="modal-header">
-                <h5 class="modal-title">Confirmer la suppression</h5>
-            </div>
-            <div class="modal-body">
-                <p class="mb-0">Êtes-vous sûr de vouloir supprimer cet utilisateur ?</p>
-            </div>
-            <div class="modal-footer d-flex justify-content-between">
-                <button class="btn btn-secondary flex-fill" wire:click="cancelDelete">Annuler</button>
-                <button class="btn btn-danger flex-fill" wire:click="deleteUser">Supprimer</button>
+    <div class="modal fade show d-block" tabindex="-1" style="background: rgba(0,0,0,0.3);">
+        <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg rounded-3">
+                <div class="modal-body p-4 text-center">
+                    <div class="text-danger mb-3">
+                        <i class="fas fa-exclamation-circle fa-2x"></i>
+                    </div>
+                    <h6 class="fw-bold mb-2">Confirmer la suppression</h6>
+                    <p class="text-muted small mb-4">Cette action supprimera définitivement le compte.</p>
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-danger btn-sm rounded-pill py-2 fw-bold"
+                            wire:click="deleteUser">Supprimer</button>
+                        <button class="btn btn-light btn-sm rounded-pill py-2" wire:click="cancelDelete">Annuler</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<div class="modal-backdrop fade show"></div>
-
 @endif
+
+<style>
+    .smallest {
+        font-size: 0.7rem;
+    }
+
+    .btn-link:hover {
+        opacity: 0.7;
+    }
+</style>
