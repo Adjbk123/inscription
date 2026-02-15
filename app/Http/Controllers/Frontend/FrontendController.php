@@ -9,6 +9,8 @@ use App\Models\Departement;
 use App\Models\Inscription;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Mail\InscriptionRecuMail;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -138,6 +140,9 @@ class FrontendController extends Controller
             'fichier' => $filename,
             'token' => Str::random(64),
         ]);
+
+        // Envoyer l'email de confirmation
+        Mail::to($inscription->email)->send(new InscriptionRecuMail($inscription));
 
         return redirect()->route('recrutement.merci', $inscription->id);
     }

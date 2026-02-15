@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class InscriptionAccepteMail extends Mailable
+class InscriptionRecuMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -24,22 +24,22 @@ class InscriptionAccepteMail extends Mailable
     }
 
     /**
-     * Email subject
+     * Get the message envelope.
      */
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Votre candidature a été acceptée - Maflyt Sarl',
+            subject: 'Candidature Reçue - Maflyt Sarl',
         );
     }
 
     /**
-     * Email content
+     * Get the message content definition.
      */
     public function content(): Content
     {
         return new Content(
-            view: 'emails.inscription_acceptee',
+            view: 'emails.inscription_recue',
             with: [
                 'inscription' => $this->inscription,
             ],
@@ -47,7 +47,9 @@ class InscriptionAccepteMail extends Mailable
     }
 
     /**
-     * Attachments
+     * Get the attachments for the message.
+     *
+     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
      */
     public function attachments(): array
     {

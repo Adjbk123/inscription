@@ -32,7 +32,7 @@ class InscriptionRefuseMail extends Mailable
         return new Content(
             view: 'emails.inscription_refusee',
             with: [
-                'name' => $this->inscription->name,
+                'inscription' => $this->inscription,
             ],
         );
     }

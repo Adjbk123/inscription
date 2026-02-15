@@ -21,12 +21,14 @@
                                 <h1 class="display-1 text-white mb-4 animated slideInDown fw-black">
                                     Façonnez votre <span class="text-primary">Avenir</span> Professionnel
                                 </h1>
-                                <p class="fs-5 text-white-50 mb-5 animated slideInDown">
-                                    Rejoignez une équipe dynamique et donnez un nouvel élan à votre carrière avec des
-                                    spécialités de pointe.
+                                <p class="fs-5 mb-5 animated slideInDown text-white">
+                                    <span class="bg-black bg-opacity-25 px-3 py-2 rounded-2 d-inline-block">
+                                        Rejoignez une équipe dynamique et donnez un nouvel élan à votre carrière avec des
+                                        spécialités de pointe.
+                                    </span>
                                 </p>
-                                <div class="d-flex align-items-center animated slideInDown">
-                                    <a href="#specialites" class="btn btn-primary rounded-pill py-3 px-5 me-4 shadow-lg">
+                                <div class="d-grid gap-3 d-sm-flex align-items-center animated slideInDown pb-5 pb-lg-0">
+                                    <a href="#specialites" class="btn btn-primary rounded-pill py-3 px-5 shadow-lg">
                                         Découvrir les Spécialités
                                     </a>
                                     <a href="{{ route('frontend.recrutementForm') }}"
@@ -54,11 +56,13 @@
                                 <h1 class="display-1 text-white mb-4 animated zoomIn fw-black">
                                     Devenez notre prochain <span class="text-primary">Talent</span>
                                 </h1>
-                                <p class="fs-5 text-white-50 mb-5 animated zoomIn">
-                                    Nous recherchons des formateurs et des professionnels passionnés pour partager leur
-                                    expertise.
+                                <p class="fs-5 mb-5 animated zoomIn text-white">
+                                    <span class="bg-black bg-opacity-25 px-3 py-2 rounded-2 d-inline-block">
+                                        Nous recherchons des formateurs et des professionnels passionnés pour partager leur
+                                        expertise.
+                                    </span>
                                 </p>
-                                <div class="d-flex justify-content-center animated zoomIn">
+                                <div class="d-grid gap-3 d-sm-flex justify-content-center animated zoomIn pb-5 pb-lg-0">
                                     <a href="{{ route('frontend.recrutementForm') }}"
                                         class="btn btn-primary rounded-pill py-3 px-5 shadow-lg">
                                         Déposer ma Candidature

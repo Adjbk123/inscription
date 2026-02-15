@@ -97,6 +97,7 @@ Route::group([
         Route::get('/', [App\Http\Controllers\InscriptionController::class, 'index'])->name('inscriptions.index');
         Route::get('/create', [App\Http\Controllers\InscriptionController::class, 'create'])->name('inscriptions.create');
         Route::post('/store', [App\Http\Controllers\InscriptionController::class, 'store'])->name('inscriptions.store');
+        Route::get('/{inscription}', [App\Http\Controllers\InscriptionController::class, 'show'])->name('inscriptions.show');
         Route::get('/{inscription}/edit', [App\Http\Controllers\InscriptionController::class, 'edit'])->name('inscriptions.edit');
         Route::put('/{inscription}', [App\Http\Controllers\InscriptionController::class, 'update'])->name('inscriptions.update');
         Route::delete('/{inscription}', [App\Http\Controllers\InscriptionController::class, 'destroy'])->name('inscriptions.destroy');

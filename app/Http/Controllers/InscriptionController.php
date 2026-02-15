@@ -31,6 +31,12 @@ class InscriptionController extends Controller
         return view('inscriptions.index', compact('inscriptions', 'specialites'));
     }
 
+    public function show($id)
+    {
+        $inscription = Inscription::with(['departement', 'commune', 'specialite'])->findOrFail($id);
+        return view('inscriptions.show', compact('inscription'));
+    }
+
     // Supprimer une inscription
     public function destroy($id)
     {

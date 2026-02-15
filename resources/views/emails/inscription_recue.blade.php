@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Candidature acceptée</title>
+    <title>Confirmation de réception de candidature</title>
 </head>
 
 <body style="font-family: Arial, Helvetica, sans-serif; background:#f4f6f9; padding:20px;">
@@ -11,23 +11,23 @@
     <div
         style="max-width:600px; margin:auto; background:white; padding:30px; border-radius:8px; box-shadow:0 0 10px rgba(0,0,0,0.05);">
 
-        <h2 style="color:#28a745; text-align:center;">🎉 Félicitations !</h2>
+        <h2 style="color:#007bff; text-align:center;">Confirmation de réception</h2>
 
         <p>Bonjour <strong>{{ $inscription->name }}</strong>,</p>
 
         <p>
-            Nous avons le plaisir de vous informer que votre candidature en tant que
-            <strong>{{ $inscription->specialite->nom }}</strong> a été <strong>acceptée</strong> par la société
+            Nous vous confirmons avoir bien reçu votre candidature en tant que
+            <strong>{{ $inscription->specialite->nom }}</strong> pour la société
             <strong>Maflyt Sarl</strong>.
         </p>
 
         <p>
-            Vous faites désormais partie de notre équipe de formateurs. Nous vous contacterons
-            très prochainement pour les prochaines étapes et les modalités de collaboration.
+            Votre dossier est actuellement en cours d'étude par notre équipe de recrutement.
+            Vous recevrez une notification par e-mail dès que le statut de votre candidature évoluera.
         </p>
 
         <p>
-            Merci pour votre confiance et votre engagement.
+            Nous vous remercions pour l'intérêt que vous portez à notre entreprise.
         </p>
 
         <br>

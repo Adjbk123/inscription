@@ -45,11 +45,13 @@
                     <div class="card-body py-3 px-4">
                         <div class="row align-items-center g-3">
                             <div class="col-md-auto pe-4 border-end d-none d-md-block">
-                                <h6 class="fw-bold text-dark mb-0"><i class="fas fa-sliders-h me-2 text-primary"></i>Filtres</h6>
+                                <h6 class="fw-bold text-dark mb-0"><i class="fas fa-sliders-h me-2 text-primary"></i>Filtres
+                                </h6>
                             </div>
                             <div class="col-md-6">
                                 <div class="position-relative">
-                                    <select id="specialiteFilter" class="form-select form-select-sm border-0 bg-light rounded-2 ps-5 py-2">
+                                    <select id="specialiteFilter"
+                                        class="form-select form-select-sm border-0 bg-light rounded-2 ps-5 py-2">
                                         <option value="">Toutes les spécialités de formation...</option>
                                         @foreach($specialites as $specialite)
                                             <option value="{{ $specialite->id }}" {{ request('specialite') == $specialite->id ? 'selected' : '' }}>
@@ -57,15 +59,17 @@
                                             </option>
                                         @endforeach
                                     </select>
-                                    <i class="fas fa-graduation-cap position-absolute text-muted" style="left: 15px; top: 50%; transform: translateY(-50%);"></i>
+                                    <i class="fas fa-graduation-cap position-absolute text-muted"
+                                        style="left: 15px; top: 50%; transform: translateY(-50%);"></i>
                                 </div>
                             </div>
                             <div class="col-md-auto">
-                                <button id="filterButton" class="btn btn-primary btn-sm rounded-pill px-4 fw-bold shadow-sm">
+                                <button id="filterButton"
+                                    class="btn btn-primary btn-sm rounded-pill px-4 fw-bold shadow-sm">
                                     Appliquer le filtre
                                 </button>
                             </div>
-                            <div class="col-md-auto ms-auto">
+                            <div class="col-md-auto ml-auto">
                                 <div class="text-end">
                                     <div class="smallest text-muted text-uppercase fw-bold mb-0">Total Candidatures</div>
                                     <div class="h5 fw-bold mb-0 text-primary">{{ $inscriptions->total() }}</div>
@@ -103,7 +107,8 @@
                                                 {{ strtoupper(substr($inscription->name, 0, 1)) }}
                                             </div>
                                             <div>
-                                                <div class="fw-bold text-dark">{{ $inscription->name }}</div>
+                                                <a href="{{ route('employer.gestinscriptions.inscriptions.show', $inscription->id) }}"
+                                                    class="fw-bold text-dark text-decoration-none hover-primary">{{ $inscription->name }}</a>
                                                 <div class="text-muted small">Inscrit le
                                                     {{ $inscription->created_at->format('d/m/Y') }}
                                                 </div>
@@ -112,9 +117,9 @@
                                     </td>
                                     <td>
                                         <div class="small text-dark"><i
-                                                class="bi bi-envelope me-2 opacity-50"></i>{{ $inscription->email }}</div>
+                                                class="fas fa-envelope mr-2 opacity-50"></i>{{ $inscription->email }}</div>
                                         <div class="small text-muted"><i
-                                                class="bi bi-telephone me-2 opacity-50"></i>{{ $inscription->numero }}</div>
+                                                class="fas fa-phone mr-2 opacity-50"></i>{{ $inscription->numero }}</div>
                                     </td>
                                     <td>
                                         <div class="small text-dark fw-medium">{{ $inscription->departement->nom ?? 'N/A' }}
@@ -129,8 +134,8 @@
                                     <td class="text-center">
                                         @if($inscription->fichier)
                                             <div class="btn-group shadow-sm rounded-3 overflow-hidden">
-                                                <a href="{{ asset('uploads/' . $inscription->fichier) }}" target="_blank"
-                                                    class="btn btn-sm btn-white border-end" title="Voir">
+                                                <a href="{{ route('employer.gestinscriptions.inscriptions.show', $inscription->id) }}"
+                                                    class="btn btn-sm btn-white border-end" title="Voir Détails">
                                                     <i class="fas fa-eye text-primary"></i>
                                                 </a>
                                                 <a href="{{ asset('uploads/' . $inscription->fichier) }}" download
@@ -146,17 +151,17 @@
                                         @if($inscription->statut == 'en_attente')
                                             <span
                                                 class="badge bg-warning-subtle text-warning px-3 py-2 rounded-pill border border-warning-subtle">
-                                                <i class="fas fa-clock me-1"></i> En attente
+                                                <i class="fas fa-clock mr-1"></i> En attente
                                             </span>
                                         @elseif($inscription->statut == 'accepte')
                                             <span
                                                 class="badge bg-success-subtle text-success px-3 py-2 rounded-pill border border-success-subtle">
-                                                <i class="fas fa-check-circle me-1"></i> Accepté
+                                                <i class="fas fa-check-circle mr-1"></i> Accepté
                                             </span>
                                         @elseif($inscription->statut == 'refuse')
                                             <span
                                                 class="badge bg-danger-subtle text-danger px-3 py-2 rounded-pill border border-danger-subtle">
-                                                <i class="fas fa-times-circle me-1"></i> Refusé
+                                                <i class="fas fa-times-circle mr-1"></i> Refusé
                                             </span>
                                         @endif
                                     </td>
@@ -164,17 +169,22 @@
                                         <div class="dropdown">
                                             <button
                                                 class="btn btn-light btn-sm rounded-circle d-flex align-items-center justify-content-center mx-auto"
-                                                style="width: 32px; height: 32px;" type="button" data-bs-toggle="dropdown">
-                                                <i class="fas fa-ellipsis-v small"></i>
+                                                style="width: 32px; height: 32px;" type="button" data-toggle="dropdown">
+                                                <i class="fas fa-ellipsis-v"></i>
                                             </button>
-                                            <div class="dropdown-menu dropdown-menu-end shadow border-0 rounded-3">
+                                            <div class="dropdown-menu dropdown-menu-right shadow border-0 rounded-3">
+                                                <a href="{{ route('employer.gestinscriptions.inscriptions.show', $inscription->id) }}"
+                                                    class="dropdown-item py-2 text-primary">
+                                                    <i class="fas fa-info-circle mr-2"></i> Voir les détails
+                                                </a>
+                                                <div class="dropdown-divider"></div>
                                                 @if($inscription->statut == 'en_attente')
                                                     <form
                                                         action="{{ route('employer.gestinscriptions.inscriptions.accepter', $inscription->id) }}"
                                                         method="POST">
                                                         @csrf
                                                         <button type="submit" class="dropdown-item py-2 text-success">
-                                                            <i class="fas fa-check-circle me-2"></i> Accepter la candidature
+                                                            <i class="fas fa-check-circle mr-2"></i> Accepter la candidature
                                                         </button>
                                                     </form>
                                                     <form
@@ -182,7 +192,7 @@
                                                         method="POST">
                                                         @csrf
                                                         <button type="submit" class="dropdown-item py-2 text-warning">
-                                                            <i class="fas fa-times-circle me-2"></i> Refuser la candidature
+                                                            <i class="fas fa-times-circle mr-2"></i> Refuser la candidature
                                                         </button>
                                                     </form>
                                                     <div class="dropdown-divider"></div>
@@ -194,7 +204,7 @@
                                                     @method('DELETE')
                                                     <button type="submit" class="dropdown-item py-2 text-danger btn-delete"
                                                         data-name="{{ $inscription->name }}">
-                                                        <i class="fas fa-trash-alt me-2"></i> Supprimer
+                                                        <i class="fas fa-trash-alt mr-2"></i> Supprimer
                                                     </button>
                                                 </form>
                                             </div>
@@ -291,4 +301,10 @@
             });
         });
     </script>
+    <style>
+        .hover-primary:hover {
+            color: var(--primary) !important;
+            text-decoration: underline !important;
+        }
+    </style>
 @endsection
