@@ -1,0 +1,56 @@
+Route::group([
+    "middleware" => ["auth", "auth.employer"],
+    'as' => 'employer.'
+], function () {
+    // Dashboard Admin
+    
+
+    Route::group([
+        "prefix" => "gestinscriptions",
+        "as" => "gestinscriptions."
+    ], function () {
+        Route::group([
+        "prefix" => "gestinscriptions",
+        "as" => "gestinscriptions."
+    ], function () {
+        Route::get('/', [App\Http\Controllers\InscriptionController::class, 'index'])->name('inscriptions.index');
+        Route::get('/create', [App\Http\Controllers\InscriptionController::class, 'create'])->name('inscriptions.create');
+        Route::post('/store', [App\Http\Controllers\InscriptionController::class, 'store'])->name('inscriptions.store');
+        Route::get('/{inscription}/edit', [App\Http\Controllers\InscriptionController::class, 'edit'])->name('inscriptions.edit');
+        Route::put('/{inscription}', [App\Http\Controllers\InscriptionController::class, 'update'])->name('inscriptions.update');
+        Route::delete('/{inscription}', [App\Http\Controllers\InscriptionController::class, 'destroy'])->name('inscriptions.destroy');
+
+        Route::post('/inscriptions/{id}/accepter', [App\Http\Controllers\InscriptionController::class, 'accepter'])->name('inscriptions.accepter');
+        Route::post('/inscriptions/{id}/refuser', [App\Http\Controllers\InscriptionController::class, 'refuser'])->name('inscriptions.refuser');
+
+        Route::get('/inscriptions/pdf-alpha', [App\Http\Controllers\InscriptionController::class, 'pdfAcceptesAlpha'])
+            ->name('inscriptions.pdfAlpha');
+
+        Route::get('/inscriptions/pdf-departement', [App\Http\Controllers\InscriptionController::class, 'pdfAcceptesDepartement'])
+            ->name('inscriptions.pdfDepartement');
+
+        Route::get('/inscriptions/pdf-commune', [App\Http\Controllers\InscriptionController::class, 'pdfAcceptesCommune'])
+            ->name('inscriptions.pdfCommune');
+    });
+
+   
+
+
+
+   Route::group([
+        "prefix" => "gestspecialites",
+        "as" => "gestspecialites."
+    ], function () {
+
+        Route::get('/', [App\Http\Controllers\SpecialiteController::class, 'index'])->name('specialites.index');
+        Route::get('/create', [App\Http\Controllers\SpecialiteController::class, 'create'])->name('specialites.create');
+        Route::post('/store', [App\Http\Controllers\SpecialiteController::class, 'store'])->name('specialites.store');
+        Route::get('/{specialite}/edit', [App\Http\Controllers\SpecialiteController::class, 'edit'])->name('specialites.edit');
+        Route::put('/{specialite}', [App\Http\Controllers\SpecialiteController::class, 'update'])->name('specialites.update');
+        Route::delete('/{specialite}', [App\Http\Controllers\SpecialiteController::class, 'destroy'])->name('specialites.destroy');
+
+        Route::post('/{specialite}/toggle-statut', [App\Http\Controllers\SpecialiteController::class, 'toggleStatut'])
+            ->name('specialites.toggleStatut');
+    });
+});
+});
